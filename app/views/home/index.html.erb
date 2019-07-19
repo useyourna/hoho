@@ -1,0 +1,16 @@
+<a href="/home/new">새로운 글 작성</a>
+
+<% @posts.each do |post| %>
+    <div class="panel panel-default">
+        <div ckss="panel-heading">
+            <h3 class="panel-title">
+                <% post.title %>
+            </h3>
+        </div>
+        <div clss="panel-body">
+            <% post.content %>
+        </div>
+</div>
+<a href="/home/edit/<%=post.id %>"><span class="label label-success">수정</span></a>
+<a href="/home/destroy/<%=post.id %>"><span class="label label-danger">삭제</span></a>
+<% end %>
