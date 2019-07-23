@@ -1,4 +1,8 @@
 Rails.application.routes.draw do
+  get 'comments/create'
+    resources 'posts' do
+        resources 'comments'
+    
     root 'home#index'
     
     get 'home/index'=>'home#index'

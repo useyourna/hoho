@@ -3,12 +3,7 @@ class HomeController < ApplicationController
         @posts = Post.all.reverse
     end
     
-    @@visit = 0
-    def visit
-        @visit +=1
-        @@visit +=1
-        "today total visit #@@visit."
-    end
+
     
     def new
     end
