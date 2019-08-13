@@ -1,40 +1,48 @@
-class HomeController < ApplicationController
-    def index
-        @posts = Post.all.reverse
-    end
-    
+class PostsController < ApplicationController
+  before_action :authenticate_user!, except: :index
+  before_action :load_post, only: [:show, :edit, :update, :destroy]
 
-    
-    def new
-    end
-    
-    def create
-        post = Post.new
-        post.content = params[:content]
-        post.title = params[:title]
-        post.save
-        
-        redirect_to "/"
-        
-    end
-    
-    def destroy
-        post = Post.find(params[:post_id])
-        post.destroy
-        
-        redirect_to"/"
-    end
-    
-    def edit
-        @post = Post.find(params[:post_id])
-    end
-    
-    def update
-        post=Post.find(params[:params_id])
-        post.title=params[:content]
-        post.save
-        
-        redirect_to"/"
-    end
-        
+  def index
+    @posts = Post.all
+  end
+
+  def new
+    @post = Post.new
+  end
+
+  def create
+    Post.create!(post_params)
+
+    redirect_to root_path
+  end
+
+  def show
+    @comment = Comment.new
+    @comments = @post.comments
+  end
+
+  def edit
+  end
+
+  def update
+    @post.update!(post_params)
+
+    redirect_to root_path
+  end
+
+  def destroy
+    @post.destroy
+
+    redirect_to root_path
+  end
+
+  private
+  def post_params
+    params[:post][:user_id] = current_user.id
+    params.require(:post).permit(:title, :content, :user_id)
+  end
+
+  def load_post
+    @post = Post.find params[:id]
+  end
 end
